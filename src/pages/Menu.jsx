@@ -1,0 +1,212 @@
+import { useEffect, useState, useRef } from "react";
+import "./Menu.css";
+import { db } from "../firebase";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { useCart } from "../store/CartContext";
+
+const Menu = () => {
+
+  const [menuItems, setMenuItems] = useState([]);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [stopScroll, setStopScroll] = useState(false);
+
+  const categoryRefs = useRef({});
+  const scrollTimerRef = useRef(null);
+
+
+  const { cartItems, addToCart, increaseQty, decreaseQty } = useCart();
+
+  const getQty = (id) => {
+    const item = cartItems.find((i) => i.id === id);
+    return item ? item.qty : 0;
+  };
+
+  // 🔹 FETCH MENU
+  useEffect(() => {
+    const fetchMenu = async () => {
+      const q = query(collection(db, "menu"), orderBy("createdAt", "asc"));
+      const snapshot = await getDocs(q);
+
+      const items = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setMenuItems(items);
+    };
+
+    fetchMenu();
+  }, []);
+
+  // 🔹 CARD ANIMATION (UNCHANGED)
+  useEffect(() => {
+    if (menuItems.length === 0) return;
+
+    const cards = document.querySelectorAll(".menu-card");
+    const bells = document.querySelectorAll(".green-bell");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            bells.forEach((b) => b.classList.add("freeze"));
+          } else {
+            bells.forEach((b) => b.classList.remove("freeze"));
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [menuItems]);
+
+  // 🔹 UNIQUE CATEGORIES
+  const categories = [...new Set(menuItems.map((i) => i.category))];
+
+  // 🔹 CLICK CATEGORY
+  const scrollToCategory = (cat) => {
+    setActiveCategory(cat);
+
+    // 🛑 temporarily stop animation
+    setStopScroll(true);
+
+    // ⏱️ resume after 1.5 sec
+    if (scrollTimerRef.current) {
+      clearTimeout(scrollTimerRef.current);
+    }
+
+    scrollTimerRef.current = setTimeout(() => {
+      setStopScroll(false);
+    }, 2500);
+
+    categoryRefs.current[cat]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
+
+  // 🔹 SCROLL → AUTO HIGHLIGHT BANNER
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveCategory(entry.target.dataset.category);
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+
+    Object.values(categoryRefs.current).forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [menuItems]);
+
+  return (
+    <div className="menu-wrapper">
+
+      {/* 🍳 KITCHEN DECOR ANIMATION */}
+      <div className="kitchen-decor left">
+        <span>🍳</span>
+      </div>
+
+      <div className="kitchen-decor right">
+        <span>👨‍🍳</span>
+      </div>
+
+
+
+      <div className="menu-page">
+        <h1 className="menu-title">Our Menu</h1>
+
+        {/* 🔥 STICKY CATEGORY BAR */}
+        <div className="category-bar">
+          <div className={`category-track ${stopScroll ? "stop" : ""}`}>
+            {[...categories, ...categories].map((cat, i) => (
+              <button
+                key={i}
+                className={`category-pill ${activeCategory === cat ? "active" : ""
+                  }`}
+                onClick={() => scrollToCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+
+        {/* 🔹 MENU LIST */}
+        {categories.map((cat) => (
+          <div
+            key={cat}
+            ref={(el) => (categoryRefs.current[cat] = el)}
+            data-category={cat}
+            className="menu-category-section"
+          >
+            <h2 className="category-title">{cat}</h2>
+
+            <div className="menu-list">
+              {menuItems
+                .filter((item) => item.category === cat)
+                .map((item, index) => {
+                  const qty = getQty(item.id);
+
+                  return (
+                    <div
+                      key={item.id}
+                      className={`menu-card ${index % 2 === 0 ? "from-right" : "from-left"
+                        }`}
+                    >
+                      <div
+                        className="menu-image"
+                        style={{ backgroundImage: `url(${item.image})` }}
+                      ></div>
+
+                      <div className="menu-info">
+                        <h3>
+                          {item.veg && <span className="veg-dot"></span>}
+                          {item.name}
+                        </h3>
+
+                        <p>₹{item.price}</p>
+
+                        {qty === 0 ? (
+                          <button
+                            className={`add-btn ${qty > 0 ? "added" : ""}`}
+                            onClick={() => addToCart(item)}
+                          >
+                            {qty > 0 ? "✔ Added" : "Add to Cart"}
+                          </button>
+
+                        ) : (
+                          <div className="qty-box">
+                            <button onClick={() => decreaseQty(item.id)}>
+                              -
+                            </button>
+                            <span>{qty}</span>
+                            <button onClick={() => increaseQty(item.id)}>
+                              +
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Menu;

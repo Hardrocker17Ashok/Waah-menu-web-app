@@ -1,0 +1,217 @@
+/* ================= BASE ================= */
+.home {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ================= HERO ================= */
+.hero-banner {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+}
+
+/* BACKGROUND IMAGE (PARALLAX TARGET) */
+.hero-image {
+  position: absolute;
+
+  /* OVERSIZE THE IMAGE */
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+
+  background-image: url("/download.jpg"); /* image in public folder */
+  background-size: cover;
+  background-position: center;
+
+  /* VISUAL STYLE */
+  filter: blur(8px) brightness(0.75);
+
+  /* BASE TRANSFORM */
+  transform: translateY(0) scale(1.25);
+
+  will-change: transform;
+  pointer-events: none;
+}
+
+
+/* OVERLAY */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.7)
+  );
+}
+
+/* ================= CONTENT ================= */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+  padding: 20px;
+}
+
+/* TITLE */
+.hero-title {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+
+  opacity: 0;
+  animation: slideDown 1s ease forwards;
+}
+
+/* SUBTITLE */
+.hero-subtitle {
+  font-size: 20px;
+  line-height: 1.6;
+  color: #e5e7eb;
+  margin-bottom: 40px;
+
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+  animation-delay: 0.4s;
+}
+
+/* ACTIONS */
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+  animation-delay: 0.8s;
+}
+
+/* BUTTON BASE */
+.hero-btn {
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+/* PRIMARY */
+.hero-btn.primary {
+  background: #2563eb;
+  color: white;
+  box-shadow: 0 12px 30px rgba(37,99,235,0.35);
+}
+
+.hero-btn.primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(37,99,235,0.5);
+}
+
+/* SECONDARY */
+.hero-btn.secondary {
+  border: 1px solid rgba(255,255,255,0.4);
+  color: white;
+}
+
+.hero-btn.secondary:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-4px);
+}
+
+/* ================= FEATURES ================= */
+.section {
+  padding: 100px 20px;
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 0.8s ease;
+}
+
+.section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.features {
+  max-width: 1100px;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+.feature-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 14px;
+
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+}
+
+.feature-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 38px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+}
