@@ -2,7 +2,10 @@ import { useRef, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
+
 const Navbar = () => {
+  const mobileMenuRef = useRef(null);
+
   const navRef = useRef(null);
   const logoRef = useRef(null);
 
@@ -20,6 +23,31 @@ const Navbar = () => {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  // close mobile menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        mobileMenuOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(e.target)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    const handleScroll = () => {
+      setMobileMenuOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [mobileMenuOpen]);
+
 
   // logo animation re-trigger
   useEffect(() => {
@@ -81,9 +109,10 @@ const Navbar = () => {
 
       {/* MOBILE MENU DROPDOWN */}
       <div
+        ref={mobileMenuRef}
         className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}
-        onMouseLeave={() => setMobileMenuOpen(false)}
       >
+
         <button onClick={() => scrollToSection("about")}>About</button>
         <button onClick={() => scrollToSection("why")}>Why Us</button>
         <Link to="/menu" onClick={() => setMobileMenuOpen(false)}>Menu</Link>

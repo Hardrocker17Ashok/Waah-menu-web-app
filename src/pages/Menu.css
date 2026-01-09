@@ -798,3 +798,73 @@
   }
 
 }
+
+/* ================= CATEGORY BAR FIX PACK ================= */
+
+/* keep title always visible */
+.menu-title {
+  position: relative;
+  z-index: 10;
+}
+
+/* fix sticky overlap */
+.category-bar {
+  position: sticky;
+  top: 120px;          /* navbar + title space */
+  z-index: 20;
+}
+
+/* enable horizontal scroll */
+.category-bar {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* auto moving row */
+.category-track {
+  display: flex;
+  gap: 14px;
+  min-width: max-content;
+  animation: slideCategory 25s linear infinite;
+}
+
+/* pause on touch */
+.category-bar:active .category-track {
+  animation-play-state: paused;
+}
+
+/* pills never shrink */
+.category-pill {
+  flex-shrink: 0;
+}
+
+/* remove scrollbar */
+.category-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+  /* keep title visible */
+  .menu-title {
+    position: relative;
+    z-index: 30;
+    margin-bottom: 20px;
+  }
+
+  /* category below title */
+  .category-bar {
+    top: 90px;   /* only navbar height */
+  }
+
+  /* allow swipe */
+  .category-track {
+    animation: none;        /* manual swipe on mobile */
+    overflow-x: auto;
+    scroll-behavior: smooth;
+  }
+
+}
+
