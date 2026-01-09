@@ -5,9 +5,9 @@ import "./Navbar.css";
 const Navbar = () => {
   const navRef = useRef(null);
   const logoRef = useRef(null);
-  const linksRef = useRef(null);
-  const ctaRef = useRef(null);
+
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,42 +21,17 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // 🔥 re-trigger animations on every route change
+  // logo animation re-trigger
   useEffect(() => {
-    if (logoRef.current) {
-      logoRef.current.classList.remove("drop-logo");
-      void logoRef.current.offsetWidth;
-      logoRef.current.classList.add("drop-logo");
-    }
-
-    if (linksRef.current) {
-      linksRef.current.classList.remove("nav-links-animate");
-      void linksRef.current.offsetWidth;
-      linksRef.current.classList.add("nav-links-animate");
-    }
-
-    if (ctaRef.current) {
-      ctaRef.current.classList.remove("cta-bounce");
-      void ctaRef.current.offsetWidth;
-      ctaRef.current.classList.add("cta-bounce");
-    }
+    if (!logoRef.current) return;
+    logoRef.current.classList.remove("drop-logo");
+    void logoRef.current.offsetWidth;
+    logoRef.current.classList.add("drop-logo");
   }, [location.pathname]);
 
-  // magnetic CTA only
-  const handleMouseMove = (e) => {
-    const btn = ctaRef.current;
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
-  };
-
-  const reset = () => {
-    ctaRef.current.style.transform = "translate(0,0)";
-  };
-
-  // smooth scroll
   const scrollToSection = (id) => {
+    setMobileMenuOpen(false);
+
     if (location.pathname !== "/") {
       navigate("/");
       setTimeout(() => {
@@ -72,31 +47,47 @@ const Navbar = () => {
       <div className="navbar-inner">
 
         {/* LOGO */}
-        <div ref={logoRef} className="navbar-logo drop-logo">
+        <Link
+          to="/"
+          ref={logoRef}
+          className="navbar-logo drop-logo"
+          style={{ textDecoration: "none" }}
+        >
           Waah<span>Restaurant</span>
-        </div>
+        </Link>
 
-        {/* LINKS */}
-        <nav ref={linksRef} className="navbar-links nav-links-animate">
+
+        {/* DESKTOP LINKS */}
+        <nav className="navbar-links desktop-only">
           <button onClick={() => scrollToSection("about")}>About</button>
           <button onClick={() => scrollToSection("why")}>Why Us</button>
-
-          <Link to="/">Home</Link>
           <Link to="/menu">Menu</Link>
           <Link to="/cart">Cart</Link>
         </nav>
 
         {/* CTA */}
-        <Link
-          to="/menu"
-          ref={ctaRef}
-          className="navbar-cta cta-bounce"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={reset}
-        >
+        <Link to="/menu" className="navbar-cta">
           Order Now
         </Link>
 
+        {/* MOBILE MENU ICON */}
+        <button
+          className="mobile-menu-btn"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          ☰
+        </button>
+      </div>
+
+      {/* MOBILE MENU DROPDOWN */}
+      <div
+        className={`mobile-menu ${mobileMenuOpen ? "open" : ""}`}
+        onMouseLeave={() => setMobileMenuOpen(false)}
+      >
+        <button onClick={() => scrollToSection("about")}>About</button>
+        <button onClick={() => scrollToSection("why")}>Why Us</button>
+        <Link to="/menu" onClick={() => setMobileMenuOpen(false)}>Menu</Link>
+        <Link to="/cart" onClick={() => setMobileMenuOpen(false)}>Cart</Link>
       </div>
     </header>
   );
