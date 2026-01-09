@@ -19,8 +19,18 @@ const Cart = () => {
       return;
     }
 
-    alert("✅ Order placed successfully!");
-    // 🔥 Yaha aage tu WhatsApp / Firebase / API integrate karega
+    window.location.href = "/order-status";
+  };
+
+  // 🔥 REMOVE WITH ANIMATION
+  const handleRemove = (id) => {
+    const el = document.getElementById("item-" + id);
+    if (el) {
+      el.classList.add("remove-anim");
+      setTimeout(() => removeFromCart(id), 300);
+    } else {
+      removeFromCart(id);
+    }
   };
 
   return (
@@ -28,40 +38,77 @@ const Cart = () => {
       <h1 className="cart-title">Your Cart</h1>
 
       {cartItems.length === 0 ? (
-        <p className="empty-cart">Your cart is empty 🛒</p>
+        <div className="empty-cart-ui">
+          <div className="empty-cart-card">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png"
+              alt="Chef"
+              className="empty-cart-illustration"
+            />
+
+            <h2>Your cart is feeling hungry 😋</h2>
+            <p>Looks like the chef is waiting for your order!</p>
+
+            <button
+              className="empty-cart-btn"
+              onClick={() => window.history.back()}
+            >
+              🍔 Explore Menu
+            </button>
+          </div>
+        </div>
       ) : (
         <div className="cart-layout">
+
           {/* LEFT SIDE – ITEMS */}
-          <div className="cart-items">
-            {cartItems.map((item) => (
-              <div key={item.id} className="cart-item">
-                <img src={item.image} alt={item.name} />
+          <div className="cart-left">
 
-                <div className="item-info">
-                  <h3>{item.name}</h3>
-                  <p>₹{item.price}</p>
+            <div className="cart-items">
+              {cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  id={"item-" + item.id}
+                  className="cart-item animate-item"
+                >
+                  <img src={item.image} alt={item.name} />
 
-                  <div className="qty-control">
-                    <button onClick={() => decreaseQty(item.id)}>-</button>
-                    <span>{item.qty}</span>
-                    <button onClick={() => increaseQty(item.id)}>+</button>
+                  <div className="item-info">
+                    <h3>{item.name}</h3>
+                    <p className="price">₹{item.price}</p>
+
+                    <div className="qty-control">
+                      <button onClick={() => decreaseQty(item.id)}>-</button>
+                      <span>{item.qty}</span>
+                      <button onClick={() => increaseQty(item.id)}>+</button>
+                    </div>
+                  </div>
+
+                  <div className="item-actions">
+                    <div className="item-price-total">
+                      ₹{item.price * item.qty}
+                    </div>
+
+                    <button
+                      className="remove-btn"
+                      onClick={() => handleRemove(item.id)}
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
+              ))}
+            </div>
 
-                <div className="item-total">
-                  ₹{item.price * item.qty}
-                  <button
-                    className="remove-btn"
-                    onClick={() => removeFromCart(item.id)}
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-            ))}
+            {/* ADD MORE BUTTON BELOW ITEMS */}
+            <button
+              className="add-more-btn"
+              onClick={() => window.history.back()}
+            >
+              + Add More Items
+            </button>
           </div>
 
-          {/* RIGHT SIDE – SUMMARY */}
+          {/* RIGHT SIDE – BILLING */}
           <div className="cart-summary">
             <h2>Order Summary</h2>
 
@@ -71,11 +118,16 @@ const Cart = () => {
             </div>
 
             <div className="summary-row">
-              <span>Total Amount</span>
+              <span>Items Total</span>
               <span>₹{totalPrice}</span>
             </div>
 
             <div className="divider"></div>
+
+            <div className="grand-total-box">
+              <p>Total Payable</p>
+              <h2>₹{totalPrice}</h2>
+            </div>
 
             <input
               type="text"

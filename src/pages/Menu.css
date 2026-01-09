@@ -1,13 +1,37 @@
 /* ================= WRAPPER ================= */
+/* ===== PROFESSIONAL FOOD BACKGROUND ===== */
+
 .menu-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff7ed, #ecfdf5);
+  background-attachment: fixed;
   position: relative;
 }
+
+/* soft food texture overlay */
+.menu-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(22, 163, 74, 0.08) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* keep content above background */
+
+
 
 /* ================= MENU PAGE ================= */
 /* ================= MENU PAGE ================= */
 .menu-page {
   max-width: 1100px;
   margin: auto;
+   position: relative;
 
   /* 🔥 HEADER HEIGHT OFFSET */
   padding: 90px 20px 40px;   /* ⬅️ TOP PADDING INCREASED */
@@ -19,9 +43,10 @@
 
 
 
-
 .menu-title {
+  color: #14532d;
   text-align: center;
+   text-shadow: 0 3px 10px rgba(22,163,74,0.15);
   font-size: 46px;
   font-weight: 800;
   margin-bottom: 30px;
@@ -104,6 +129,7 @@
 
 /* ================= CARD ================= */
 .menu-card {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 30px;
@@ -112,9 +138,9 @@
   overflow: hidden;
   box-shadow: 0 12px 30px rgba(0,0,0,0.08);
   opacity: 0;
+  opacity: 1;
+  transform: translateX(0);
   transition: all 0.8s ease;
-  opacity: 1 !important;
-  transform: translateX(0) !important;
 }
 
 
@@ -189,6 +215,10 @@
   font-weight: 600;
   color: #16a34a;
 }
+.menu-wrapper {
+  -webkit-overflow-scrolling: touch;
+}
+
 
 /* ================= ADD TO CART ================= */
 .add-btn {
@@ -290,30 +320,29 @@
 }
 
 /* ================= RESPONSIVE ================= */
-@media (max-width: 1024px) {
-  .green-bell { display: none; }
-}
+/* ===== MOBILE SCROLL ANIMATION SUPPORT ===== */
 
 @media (max-width: 768px) {
-  .menu-image {
-    width: 100%;
-    height: 200px;
-    border-radius: 18px;
-    margin: 0;
+  .from-left {
+    transform: translateX(-80px);   /* mobile ke liye short distance */
+    opacity: 0;
   }
-}
 
+  .from-right {
+    transform: translateX(80px);
+    opacity: 0;
+  }
 
-@media (max-width: 768px) {
+  .menu-card.show {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
   .menu-card {
-    flex-direction: column;
-    text-align: center;
+    transition: all 0.6s ease;     /* faster on mobile */
   }
-  .menu-image { width: 100%; }
-  .menu-title { font-size: 34px; }
-  .add-btn { width: 100%; }
-  .qty-box { justify-content: center; }
 }
+
 
 /* ================= ADD TO CART SUCCESS ================= */
 .add-btn.added {
@@ -327,6 +356,9 @@
   100% { transform: scale(1); }
 }
 
+.menu-card.show {
+  transform: translateX(0);
+}
 
 /* ================= CATEGORY SCROLL FIX ================= */
 
@@ -406,3 +438,84 @@
   }
 }
 
+.cat-number {
+  font-weight: 800;
+  margin-right: 6px;
+  color: #15803d;
+}
+
+.category-pill.active .cat-number {
+  color: #ffffff;
+}
+/* ===== 2 COLUMN GRID LAYOUT ===== */
+.menu-list.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+.cat-emoji {
+  font-size: 18px;
+  margin-right: 6px;
+}
+
+
+.cat-number {
+  font-weight: 800;
+  margin-right: 6px;
+  color: #166534;
+}
+
+.cat-name {
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.title-emoji {
+  margin-right: 10px;
+  font-size: 28px;
+}
+.menu-title-emoji {
+  margin-right: 10px;
+  font-size: 42px;
+  vertical-align: middle;
+}
+
+
+/* ===== MENU TITLE ALIGNMENT ===== */
+
+.menu-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 46px;
+  font-weight: 800;
+  margin-bottom: 40px;
+  color: #14532d;
+}
+
+/* Emoji */
+.menu-title-emoji {
+  font-size: 46px;
+  line-height: 1;
+}
+
+/* Text */
+.menu-title-text {
+  line-height: 1;
+}
+
+/* ===== ANIMATION ===== */
+
+.animate-title {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: menuTitleEntry 0.9s ease-out forwards;
+}
+
+@keyframes menuTitleEntry {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

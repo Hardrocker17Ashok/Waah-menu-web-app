@@ -1,11 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../store/CartContext";
 import "./CartBar.css";
 
 const CartBar = () => {
   const { cartItems, totalItems } = useCart();
+  const location = useLocation();
 
-  if (totalItems === 0) return null; // ❌ cart empty → hide
+  // ❌ cart empty → hide
+  if (totalItems === 0) return null;
+
+  // ❌ sirf menu page par hi dikhe
+  if (location.pathname !== "/menu") return null;
 
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.qty,

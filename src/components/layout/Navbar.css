@@ -101,49 +101,64 @@
 /* ================= LINKS ================= */
 .navbar-links {
   display: flex;
-  gap: 40px;
+  gap: 36px;
 }
 
-.navbar-links a {
+/* COMMON STYLE FOR LINK + BUTTON */
+.navbar-links a,
+.navbar-links button {
   text-decoration: none;
   font-size: 15px;
   font-weight: 600;
   color: var(--muted);
 
   position: relative;
-  padding: 6px 2px;
+  padding: 10px 18px;
+  border-radius: 999px;
 
-  /* IMPORTANT */
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+
+  background: rgba(22, 163, 74, 0.06);  /* light background always */
+  border: none;
+  outline: none;
+  cursor: pointer;
 
   transition:
     transform 0.25s ease,
-    color 0.25s ease;
+    color 0.25s ease,
+    background 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
-/* WHEN MOUSE GOES ON LINK */
-.navbar-links a:hover {
-  color: var(--text);
-  transform: translateY(-6px);
-}
-
-/* underline animation */
-.navbar-links a::after {
+/* UNDERLINE (HIDDEN BY DEFAULT) */
+.navbar-links a::after,
+.navbar-links button::after {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: -10px;
-  width: 0;
+  bottom: 4px;
+  width: 0%;
   height: 2px;
-  background: var(--brand);
+  background: linear-gradient(135deg, #16a34a, #22c55e);
   transform: translateX(-50%);
-  transition: width 0.25s ease;
+  transition: width 0.3s ease;
 }
 
-.navbar-links a:hover::after {
-  width: 100%;
+/* HOVER EFFECT */
+.navbar-links a:hover,
+.navbar-links button:hover {
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.18);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
 }
 
+/* SHOW UNDERLINE ONLY ON HOVER */
+.navbar-links a:hover::after,
+.navbar-links button:hover::after {
+  width: 60%;
+}
 
 /* ================= CTA ================= */
 .navbar-cta {
@@ -226,5 +241,75 @@
 @media (max-width: 768px) {
   .navbar-links {
     display: none;
+  }
+}
+
+
+/* ===== LOGO DROP ANIMATION ===== */
+
+.drop-logo {
+  animation: dropFromTop 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: top center;
+}
+
+@keyframes dropFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-120px) scale(0.8);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(10px) scale(1.05);
+  }
+
+  80% {
+    transform: translateY(-6px) scale(0.98);
+  }
+
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* ===== LINK ANIMATION ===== */
+
+.nav-links-animate > * {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: linkFadeIn 0.6s ease forwards;
+}
+
+.nav-links-animate > *:nth-child(1) { animation-delay: 0.2s; }
+.nav-links-animate > *:nth-child(2) { animation-delay: 0.35s; }
+.nav-links-animate > *:nth-child(3) { animation-delay: 0.5s; }
+.nav-links-animate > *:nth-child(4) { animation-delay: 0.65s; }
+.nav-links-animate > *:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes linkFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== CTA BOUNCE ===== */
+
+.cta-bounce {
+  animation: ctaPop 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes ctaPop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
   }
 }

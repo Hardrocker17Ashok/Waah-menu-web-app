@@ -32,11 +32,11 @@ const Home = () => {
     };
   }, []);
 
-  return (
+  return (    
     <div className="home">
 
       {/* ================= HERO ================= */}
-      <section className="hero-banner">
+      <section className="hero-banner" id="home">
 
         {/* background image */}
         <div className="hero-image"></div>
@@ -65,6 +65,31 @@ const Home = () => {
           </div>
         </div>
 
+      </section>
+
+      {/* ================= ABOUT ================= */}
+      <section className="section about-section" id="about">
+        <div className="about-content">
+          <h2>About Us</h2>
+          <p>
+            Waah Restaurant brings you authentic taste with premium quality ingredients,
+            hygienic kitchen and direct ordering experience. No middlemen, no commission —
+            just fresh food made with love.
+          </p>
+        </div>
+      </section>
+
+      {/* ================= WHY US ================= */}
+      <section className="section why-section" id="why">
+        <div className="why-content">
+          <h2>Why Choose Waah?</h2>
+          <ul>
+            <li>🍽️ Freshly prepared food</li>
+            <li>⚡ Fast service & instant order</li>
+            <li>💰 No extra commission</li>
+            <li>👨‍🍳 Hygienic kitchen</li>
+          </ul>
+        </div>
       </section>
 
       {/* ================= FEATURES ================= */}
