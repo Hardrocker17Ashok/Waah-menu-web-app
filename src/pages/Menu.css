@@ -322,26 +322,54 @@
 /* ================= RESPONSIVE ================= */
 /* ===== MOBILE SCROLL ANIMATION SUPPORT ===== */
 
+/* ================= MOBILE MENU GRID FIX ================= */
+
 @media (max-width: 768px) {
-  .from-left {
-    transform: translateX(-80px);   /* mobile ke liye short distance */
-    opacity: 0;
-  }
 
-  .from-right {
-    transform: translateX(80px);
-    opacity: 0;
-  }
-
-  .menu-card.show {
-    transform: translateX(0);
-    opacity: 1;
+  .menu-list.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);   /* 2 items per row */
+    gap: 14px;
   }
 
   .menu-card {
-    transition: all 0.6s ease;     /* faster on mobile */
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .menu-image {
+    width: 100%;
+    height: 140px;
+    border-radius: 16px 16px 0 0;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .menu-info {
+    padding: 12px;
+    text-align: center;
+  }
+
+  .menu-info h3 {
+    font-size: 15px;
+  }
+
+  .menu-info p {
+    font-size: 14px;
+  }
+
+  .add-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .qty-box {
+    justify-content: center;
   }
 }
+
 
 
 /* ================= ADD TO CART SUCCESS ================= */

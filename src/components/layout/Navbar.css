@@ -237,12 +237,57 @@
 
 
 
-/* ================= MOBILE ================= */
+
+/* ================= MOBILE NAVBAR CLEAN VIEW ================= */
+
+/* ================= MOBILE NAVBAR FIX ================= */
+
 @media (max-width: 768px) {
+
+  .navbar-inner {
+    padding: 12px 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .navbar-logo {
+    font-size: 18px;
+    flex: 1;
+  }
+
+  /* Show links */
   .navbar-links {
-    display: none;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .navbar-links a,
+  .navbar-links button {
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #f0fdf4;
+    color: #166534;
+  }
+
+  .navbar-links a:hover,
+  .navbar-links button:hover {
+    background: #16a34a;
+    color: white;
+  }
+
+  .navbar-cta {
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 10px;
+    margin-left: auto;
   }
 }
+
 
 
 /* ===== LOGO DROP ANIMATION ===== */
