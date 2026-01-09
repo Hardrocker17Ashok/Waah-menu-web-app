@@ -736,3 +736,65 @@
     font-size: 14px;
   }
 }
+
+/* ================= MOBILE CATEGORY + FOOTER + ANIMATION FIX ================= */
+@media (max-width: 768px) {
+
+  /* ===== CATEGORY BAR MOVE FIX ===== */
+  .category-bar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .category-track {
+    display: flex;
+    flex-wrap: nowrap;
+    animation: slideCategory 25s linear infinite; /* auto move */
+    min-width: max-content;
+  }
+
+  .category-bar:active .category-track {
+    animation-play-state: paused;   /* touch pe ruk jaaye */
+  }
+
+  .category-pill {
+    flex-shrink: 0;
+  }
+
+  /* ===== FOOTER CART SMALL & CENTER ===== */
+  .floating-cart {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 360px;
+    border-radius: 18px;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .floating-cart button {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  /* ===== ENABLE LEFT RIGHT IMAGE ANIMATION ON MOBILE ===== */
+  .menu-card {
+    opacity: 0;
+    transform: translateX(0);
+    transition: all 0.7s ease;
+  }
+
+  .menu-card.from-left {
+    transform: translateX(-80px);
+  }
+
+  .menu-card.from-right {
+    transform: translateX(80px);
+  }
+
+  .menu-card.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+}
