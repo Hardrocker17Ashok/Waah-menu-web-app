@@ -499,5 +499,12 @@
   .mobile-menu-btn {
     display: block;
   }
+    .navbar {
+    top: 10px;
+  }
+
+  .navbar-inner {
+    flex-wrap: nowrap;
+  }
 }
 
