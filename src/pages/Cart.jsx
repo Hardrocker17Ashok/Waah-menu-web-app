@@ -22,7 +22,7 @@ const Cart = () => {
     window.location.href = "/order-status";
   };
 
-  // 🔥 REMOVE WITH ANIMATION
+  //  REMOVE WITH ANIMATION
   const handleRemove = (id) => {
     const el = document.getElementById("item-" + id);
     if (el) {

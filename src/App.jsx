@@ -18,41 +18,47 @@ import SeedMenu from "./seed/SeedMenu";
 
 import { CartProvider } from "./store/CartContext";
 
-import EmojiLoader from "./components/EmojiLoader";
+import EmojiLoader from "./components/EmojiLoader";   // ✅ Keep same name
 
 function App() {
   const [loading, setLoading] = useState(true);
 
   // 🔥 GLOBAL LOADER (ALL PAGES)
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1200);
+    const timer = setTimeout(() => setLoading(false), 3000); // 3 sec loader
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <CartProvider>
       <BrowserRouter>
-        <Navbar />
 
-        {/* 🔥 EMOJI LOADER */}
+        {/* 🔥 LOADER */}
         {loading && <EmojiLoader />}
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/order-status" element={<OrderStatus />} />
+        {!loading && (
+          <>
+            <Navbar />
 
-          <Route path="/admin" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/order-status" element={<OrderStatus />} />
 
-          {/* ⚠️ Seed route: use only once then remove */}
-          <Route path="/seed-menu" element={<SeedMenu />} />
-        </Routes>
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<Dashboard />} />
 
-        <CartBar />
-        <Footer />
+              {/* ⚠️ Seed route: use only once then remove */}
+              <Route path="/seed-menu" element={<SeedMenu />} />
+            </Routes>
+
+            <CartBar />
+            <Footer />
+          </>
+        )}
+
       </BrowserRouter>
     </CartProvider>
   );

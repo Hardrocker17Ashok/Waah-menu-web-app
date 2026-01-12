@@ -6,10 +6,10 @@ const CartBar = () => {
   const { cartItems, totalItems } = useCart();
   const location = useLocation();
 
-  // ❌ cart empty → hide
+  //  cart empty → hide
   if (totalItems === 0) return null;
 
-  // ❌ sirf menu page par hi dikhe
+  //  sirf menu page par hi dikhe
   if (location.pathname !== "/menu") return null;
 
   const totalPrice = cartItems.reduce(

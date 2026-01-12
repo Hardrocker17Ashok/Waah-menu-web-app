@@ -1,19 +1,32 @@
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 import "./EmojiLoader.css";
 
 const EmojiLoader = () => {
+  const barRef = useRef(null);
+
+  useEffect(() => {
+    gsap.to(barRef.current, {
+      x: 420,
+      duration: 2.2,
+      repeat: -1,
+      ease: "linear",
+    });
+  }, []);
+
   return (
-    <div className="emoji-loader-wrapper">
-      <div className="emoji-circle-loader small">
+    <div className="pro-loader-screen">
+      <div className="pro-loader-box">
 
-        <div className="emoji-rotator">
-          <span className="e1">🍔</span>
-          <span className="e2">🍕</span>
-          <span className="e3">🌮</span>
-          <span className="e4">🍟</span>
-        </div>
+        <h1 className="pro-brand">
+          <span className="brand-fill">WAAH</span>
+          <span className="brand-outline">WAAH</span>
+        </h1>
 
-        <div className="loader-text">
-          Loading...
+        <p className="pro-tagline">Taste that makes you smile 🤤</p>
+
+        <div className="pro-line-track">
+          <div className="pro-line" ref={barRef}></div>
         </div>
 
       </div>
@@ -22,3 +35,5 @@ const EmojiLoader = () => {
 };
 
 export default EmojiLoader;
+
+
