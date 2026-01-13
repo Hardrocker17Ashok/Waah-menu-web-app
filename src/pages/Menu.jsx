@@ -263,14 +263,14 @@ const Menu = () => {
       </div>
 
       {/* 🔥 FLOATING CART FOOTER (HIDE ON CART PAGE) */}
-      {location.pathname !== "/cart" && totalQty > 0 && (
+      {/* {location.pathname !== "/cart" && totalQty > 0 && (
         <div className="floating-cart">
           <span>{totalQty} item(s) added</span>
           <button onClick={() => navigate("/cart")}>
             View Cart →
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
