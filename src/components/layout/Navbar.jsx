@@ -60,15 +60,36 @@ const Navbar = () => {
   const scrollToSection = (id) => {
     setMobileMenuOpen(false);
 
+    const waitForSectionAndScroll = () => {
+      const section = document.getElementById(id);
+
+      if (!section) {
+        // DOM not ready yet, retry
+        setTimeout(waitForSectionAndScroll, 100);
+        return;
+      }
+
+      // Use Lenis if available
+      if (window.lenis) {
+        window.lenis.scrollTo(section, {
+          offset: -90,
+          duration: 1.3,
+          easing: (t) => 1 - Math.pow(1 - t, 3),
+        });
+      } else {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
     if (location.pathname !== "/") {
       navigate("/");
-      setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      }, 400);
+      waitForSectionAndScroll();   // start waiting immediately
     } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      waitForSectionAndScroll();
     }
   };
+
+
 
   return (
     <header ref={navRef} className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>

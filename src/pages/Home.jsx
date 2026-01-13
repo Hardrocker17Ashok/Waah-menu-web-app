@@ -17,6 +17,7 @@ const Home = () => {
       smoothTouch: false,
       wheelMultiplier: 1.2,
     });
+    window.lenis = lenis;
 
     function raf(time) {
       lenis.raf(time);
@@ -132,8 +133,7 @@ const Home = () => {
       {/* ================= ABOUT ================= */}
 
 
-      <section className="about-section">
-
+      <section className="about-section"id="about">
         {/* Frame 1 */}
         <div className="about-frame">
           <div className="about-image">
